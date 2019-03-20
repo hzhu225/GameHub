@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("section", "games");
         uriBuilder.appendQueryParameter("show-tags", "contributor");
-        uriBuilder.appendQueryParameter("page-size", "50");
+        uriBuilder.appendQueryParameter("page-size", "25");
         uriBuilder.appendQueryParameter("api-key", API_KEY);
 
         return new GameNewsLoader(this, uriBuilder.toString());
