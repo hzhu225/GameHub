@@ -52,7 +52,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 GameNews currentGN = mAdapter.getItem(position);
                 Uri gameNewsUri = Uri.parse(currentGN.getUrl());
                 Intent websiteIntent = new Intent(Intent.ACTION_VIEW, gameNewsUri);
-                startActivity(websiteIntent);
+                if (websiteIntent.resolveActivity(getPackageManager()) != null)         //check if the user's device has an app that can handle this intent
+                {
+                    startActivity(websiteIntent);
+                }
             }
         });
 
@@ -104,8 +107,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         Uri.Builder uriBuilder = baseUri.buildUpon();
         uriBuilder.appendQueryParameter("section", "games");
-        uriBuilder.appendQueryParameter("show-references", "author");
-        uriBuilder.appendQueryParameter("page-size", "25");
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("page-size", "50");
         uriBuilder.appendQueryParameter("api-key", API_KEY);
 
         return new GameNewsLoader(this, uriBuilder.toString());
@@ -122,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         if (gameNewsList != null && !gameNewsList.isEmpty())
         {
-            mAdapter.addAll(gameNewsList);                   //if earthquake is not empty, mEmptyStateTextView won't show
+            mAdapter.addAll(gameNewsList);
         }
 
     }

@@ -32,7 +32,6 @@ public final class QueryUtils
 
     public static List<GameNews> buildListFromUrl(String requestUrl)
     {
-        Log.i("AAA", "StartBuild");
         URL reqUrl = createUrl(requestUrl);
 
         String jsonResponse = null;
@@ -66,17 +65,15 @@ public final class QueryUtils
                 String title = newsObj.getString("webTitle");
                 String sectionName  = newsObj.getString("sectionName");
 
-                String author = "";
-                JSONArray refArray = newsObj.getJSONArray("references");
-                if(refArray.length() > 0)
+                String author = null;
+                JSONArray tagArray = newsObj.getJSONArray("tags");
+                if(tagArray.length() > 0)
                 {
                     ArrayList<String> authorList = new ArrayList<>();
-                    for (int j = 0; j < refArray.length(); j++)
+                    for (int j = 0; j < tagArray.length(); j++)
                     {
-                        JSONObject authorObj = refArray.getJSONObject(j);
-                        String authorId = authorObj.getString("id");
-                        String authorName = authorId.replace("author/", "");
-                        authorName = formatName(authorName);
+                        JSONObject authorObj = tagArray.getJSONObject(j);
+                        String authorName = authorObj.getString("webTitle");
                         authorList.add(authorName);
                     }
                     author = TextUtils.join(", ", authorList);
@@ -103,7 +100,7 @@ public final class QueryUtils
         }
         catch (JSONException e)
         {
-            Log.e("QueryUtils", "Problem parsing the earthquake JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the earthquake JSON results", e);
         }
         return gameNewsList;
     }
@@ -191,17 +188,6 @@ public final class QueryUtils
         return output.toString();
     }
 
-
-    private static String formatName(String name)
-    {
-        String[] parts = name.split("-");
-        for(int i=0; i< parts.length; i++)
-        {
-            parts[i] = parts[i].substring(0,1).toUpperCase() + parts[i].substring(1).toLowerCase();
-        }
-        String formattedName = TextUtils.join(" ", parts);
-        return formattedName;
-    }
 
 
 }
