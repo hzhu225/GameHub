@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Game Hub</string>
     <string name="action_settings">Settings</string>
+    <string name="section_text">Section:</string>
+    <string name="author_text">Author:</string>
+    <string name="no_internet_connection">No Internet Connection</string>
+    <string name="no_news">No game news found</string>
 </resources>

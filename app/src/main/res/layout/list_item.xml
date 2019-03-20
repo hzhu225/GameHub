@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="5dp"
+    android:paddingBottom="7dp">
+
+    <TextView
+        android:id="@+id/title_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginBottom="6dp"
+        android:textAppearance="@style/TextAppearance.AppCompat"
+        android:textSize="16sp"
+        tools:text="Games reviews roundup: Tom Clancy’s The Division; Pokkén Tournament; Samurai Warriors 4: Empires" />
+
+    <TextView
+        android:id="@+id/sectionTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_tv"
+        android:layout_alignStart="@+id/title_tv"
+        android:layout_alignLeft="@+id/title_tv"
+        android:layout_marginStart="0dp"
+        android:layout_marginLeft="0dp"
+        android:text="@string/section_text"
+        android:textColor="@color/colorSection"
+        android:textSize="12sp" />
+
+    <TextView
+        android:id="@+id/section_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/sectionTitle"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="0dp"
+        android:layout_toEndOf="@+id/sectionTitle"
+        android:layout_toRightOf="@+id/sectionTitle"
+        android:textColor="@color/colorSection"
+        android:textSize="12sp"
+        tools:text="Games" />
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/section_tv"
+        android:layout_alignEnd="@+id/title_tv"
+        android:layout_alignRight="@+id/title_tv"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginRight="5dp"
+        android:textColor="@color/colorTime"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        tools:text="15/03/2018 08:23" />
+
+    <TextView
+        android:id="@+id/author_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/time_tv"
+        android:layout_alignEnd="@+id/time_tv"
+        android:layout_alignRight="@+id/time_tv"
+        android:layout_marginTop="3dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginRight="0dp"
+        android:textSize="12sp"
+        android:textStyle="italic"
+        tools:text="Tom Clancy" />
+
+</RelativeLayout>
