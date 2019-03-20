@@ -57,6 +57,9 @@ public final class QueryUtils
 
             JSONObject responseObj = baseJsonObj.getJSONObject("response");
 
+            String pages = responseObj.getString("pages");
+            MainActivity.totalPages = Integer.parseInt(pages);
+
             JSONArray resultsArray = responseObj.getJSONArray("results");
 
             for (int i = 0; i < resultsArray.length(); i++)

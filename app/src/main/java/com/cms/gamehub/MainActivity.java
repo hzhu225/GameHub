@@ -13,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,8 +28,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String API_KEY = "e39134db-4f5f-413c-9478-2ed4f4eac06c";
     private static final int LOADER_ID = 1;
 
+    private ConnectivityManager cm;
     private GameNewsAdapter mAdapter;
     private TextView mEmptyStateTextView;
+    private int currentLoadPage;
+    public static int totalPages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         setSupportActionBar(toolbar);
 
         mAdapter = new GameNewsAdapter(this, new ArrayList<GameNews>());
+        totalPages = 0;
+        currentLoadPage = 1 ;
 
         ListView listView = findViewById(R.id.list_view);
         listView.setAdapter(mAdapter);
@@ -59,11 +65,29 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
+        listView.setOnScrollListener(new AbsListView.OnScrollListener()
+        {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState)
+            {
 
-        ConnectivityManager cm = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
+            {
+                if(firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0)
+                {
+
+                }
+            }
+        });
+
+
+        cm = (ConnectivityManager) getBaseContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
 
-        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting())
+        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting())           //check internet connection
         {
             LoaderManager loaderManager = getSupportLoaderManager();
             loaderManager.initLoader(LOADER_ID, null, this);
@@ -103,15 +127,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     @Override
     public Loader<List<GameNews>> onCreateLoader(int i, Bundle bundle)
     {
-        Uri baseUri = Uri.parse(REQUEST_URL);
+        if(totalPages == 0 || currentLoadPage <= totalPages)
+        {
+            Uri baseUri = Uri.parse(REQUEST_URL);
 
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-        uriBuilder.appendQueryParameter("section", "games");
-        uriBuilder.appendQueryParameter("show-tags", "contributor");
-        uriBuilder.appendQueryParameter("page-size", "25");
-        uriBuilder.appendQueryParameter("api-key", API_KEY);
+            Uri.Builder uriBuilder = baseUri.buildUpon();
+            uriBuilder.appendQueryParameter("section", "games");
+            uriBuilder.appendQueryParameter("show-tags", "contributor");
+            uriBuilder.appendQueryParameter("page-size", "10");
+            uriBuilder.appendQueryParameter("page", String.valueOf(currentLoadPage));
+            uriBuilder.appendQueryParameter("api-key", API_KEY);
 
-        return new GameNewsLoader(this, uriBuilder.toString());
+            return new GameNewsLoader(this, uriBuilder.toString());
+        }
+        return null;
     }
 
     @Override
@@ -120,12 +149,20 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
-        mEmptyStateTextView.setText(R.string.no_news);
-        mAdapter.clear();
-
-        if (gameNewsList != null && !gameNewsList.isEmpty())
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        if(activeNetwork != null && activeNetwork.isConnectedOrConnecting())       //check internet connection
         {
-            mAdapter.addAll(gameNewsList);
+            mEmptyStateTextView.setText(R.string.no_news);
+            mAdapter.clear();
+
+            if (gameNewsList != null && !gameNewsList.isEmpty())
+            {
+                mAdapter.addAll(gameNewsList);
+            }
+        }
+        else
+        {
+            mEmptyStateTextView.setText(R.string.no_internet_connection);
         }
 
     }
