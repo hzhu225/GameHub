@@ -13,6 +13,7 @@
         android:id="@+id/list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorListBG"
         android:orientation="vertical" />
 
     <!-- Empty view is only visible when the list has no items. -->
