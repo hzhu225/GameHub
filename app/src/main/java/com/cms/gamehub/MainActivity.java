@@ -31,9 +31,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private ConnectivityManager cm;
     private GameNewsAdapter mAdapter;
     private TextView mEmptyStateTextView;
+
     private int currentLoadPage;
     public static int totalPages;                     //get from first query of data
-    private LoaderManager.LoaderCallbacks mLoaderCallbacks = this;
+    private LoaderManager.LoaderCallbacks mLoaderCallbacks = this;       //used in onScrollListener
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
