@@ -32,7 +32,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private GameNewsAdapter mAdapter;
     private TextView mEmptyStateTextView;
     private int currentLoadPage;
-    public static int totalPages;
+    public static int totalPages;                     //get from first query of data
+    private LoaderManager.LoaderCallbacks mLoaderCallbacks = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -78,7 +79,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             {
                 if(firstVisibleItem + visibleItemCount == totalItemCount && totalItemCount != 0)
                 {
-
+                    Bundle bundle = new Bundle();
+                    getSupportLoaderManager().restartLoader(LOADER_ID, bundle, mLoaderCallbacks);
                 }
             }
         });
@@ -153,11 +155,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if(activeNetwork != null && activeNetwork.isConnectedOrConnecting())       //check internet connection
         {
             mEmptyStateTextView.setText(R.string.no_news);
-            mAdapter.clear();
+            //mAdapter.clear();                                     //We need to append new data to mAdapter. So no need to clear it first
 
             if (gameNewsList != null && !gameNewsList.isEmpty())
             {
                 mAdapter.addAll(gameNewsList);
+                currentLoadPage++;
             }
         }
         else
